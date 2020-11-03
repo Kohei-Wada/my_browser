@@ -1,8 +1,7 @@
 from browser import *
 
 
-#url = "https://wadablog.net/
-url = "https://manablog.org/"
+url = "https://google.com/"
 
 
 def main():
