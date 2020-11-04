@@ -6,6 +6,7 @@ from commands       import *
 import getopt
 import os
 import sys
+import pathlib
 
 
 
@@ -193,8 +194,9 @@ class browser:
     ###########################################################################
     def open_url(self, url, return_html=False):
         self._log("inside open_url()")
-
         self._log(f"\turl = {url}")
+
+
         try:
             html = urlopen(url)
         except:
@@ -292,6 +294,7 @@ class browser:
         print("")
 
         print(f"current : {self.current}")
+
         print("history : ")
         index = 0
         for url in self.urls_history:
@@ -310,7 +313,7 @@ class browser:
         all       = False
         number    = None
         urls      = self.next_urls
-        path      = os.getcwd()
+        path      = str(pathlib.Path.home()) + "/Downloads"
 
 
         if not args:
@@ -318,8 +321,8 @@ class browser:
             return
         try:
             opts, args = getopt.getopt(args,
-                            "e:an:p:",
-                            ["extention=", "all", "number=", "path="])
+                            "e:an:cp:",
+                            ["extention=", "all", "number=","current", "path="])
         except getopt.GetoptError as e:
             self._err(str(e))
             return
@@ -334,6 +337,9 @@ class browser:
 
             elif o in ("-n", "--number"):
                 number = int(a)
+
+            elif o in ("-c", "--current"):
+                path = os.getcwd()
 
             elif o in ("-p", "--path"):
                 path = a
@@ -388,6 +394,7 @@ class browser:
         command = list(map(str, input().split()))
 
         if command:
+
             if command[0] in self.commands:
                 eval("self.browser_" + commands[command[0]] + "(command[1:])")
 
@@ -406,6 +413,7 @@ class browser:
         next_all_links = []
         html = urlopen(url)
         bs = BeautifulSoup(html, "html.parser")
+
 
         for link in bs.find_all("a"):
             if "href" in link.attrs:

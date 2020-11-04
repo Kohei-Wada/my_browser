@@ -29,6 +29,7 @@ commands = {
 
     #get
     "get" : "get",
+    "save": "get"
 
 
 }
